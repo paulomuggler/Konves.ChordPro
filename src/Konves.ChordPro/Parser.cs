@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEngine;
 
 namespace Konves.ChordPro
 {
@@ -71,7 +72,8 @@ namespace Konves.ChordPro
 			}
 			else
 			{
-				throw new FormatException($"Invalid directive at line {_lineNumber}.");
+				//throw new FormatException($"Invalid directive at line {_lineNumber}.");
+                throw new FormatException(string.Format("Invalid directive at line {0}.", _lineNumber));
 			}
 		}
 
@@ -82,6 +84,12 @@ namespace Konves.ChordPro
 
 		internal static IEnumerable<string> SplitIntoBlocks(string line)
 		{
+   //         string path = Application.dataPath;
+   //         if (!File.Exists(path))
+   //         {
+   //             File.Create(path);
+   //         }
+
 			if (line == null)
 				throw new ArgumentNullException();
 
@@ -94,12 +102,14 @@ namespace Konves.ChordPro
 				{
 					if (char.IsWhiteSpace(line[i]))
 					{
+                        //Debug.Log(line.Substring(start, i - start));
 						yield return line.Substring(start, i - start);
 						isInBlock = false;
 						continue;
 					}
-					else if (i == line.Length - 1)
+					else if (i >= line.Length - 1)
 					{
+                        //Debug.Log(line.Substring(start, i - start + 1));
 						yield return line.Substring(start, i - start + 1);
 						isInBlock = false;
 						continue;
@@ -110,6 +120,14 @@ namespace Konves.ChordPro
 				{
 					isInBlock = true;
 					start = i;
+
+                    if (i >= line.Length - 1)
+                    {
+                        //i = line.Length - 1;
+                        //Debug.Log(line.Substring(start, i - start + 1));
+                        yield return line.Substring(start, i - start + 1);
+                        continue;
+                    }
 				}
 
 				if (!isInChord && line[i] == '[')
@@ -120,6 +138,13 @@ namespace Konves.ChordPro
 				if (isInChord && line[i] == ']')
 				{
 					isInChord = false;
+                    if (i >= line.Length - 1)
+                    {
+                        //i = line.Length - 1;
+                        //Debug.Log(line.Substring(start, i - start + 1));
+                        yield return line.Substring(start, i - start + 1);
+                        continue;
+                    }
 				}
 			}
 		}
@@ -185,7 +210,8 @@ namespace Konves.ChordPro
 			if (i > -1)
 			{
 				if (!TryParseChord(syllable.Substring(0, i + 1), out chord))
-					throw new FormatException($"Incorrect chord format at line {_lineNumber}.");
+                    throw new FormatException(string.Format("Incorrect chord format at line {0}.", _lineNumber));
+					//throw new FormatException($"Incorrect chord format at line {_lineNumber}.");
 			}
 
 			string text = syllable.Substring(i + 1);
@@ -196,7 +222,8 @@ namespace Konves.ChordPro
 		internal static LineType GetLineType(string line)
 		{
 			if (line == null)
-				throw new ArgumentNullException(nameof(line));
+				//throw new ArgumentNullException(nameof(line));
+                throw new ArgumentNullException("line");
 
 			for (int i = 0; i < line.Length; i++)
 			{
@@ -220,7 +247,7 @@ namespace Konves.ChordPro
 		}
 
 		readonly TextReader _textReader;
-		readonly IReadOnlyDictionary<string, DirectiveHandler> _directiveParsers;
+		readonly IDictionary<string, DirectiveHandler> _directiveParsers;
 		internal bool _isInTab = false;
 		int _lineNumber = 0;
 	}

@@ -2,8 +2,9 @@
 {
 	public sealed class Chord : Block
 	{
-		public Chord(string text)
+        public Chord(int blockNum, string text)
 		{
+            BlockNumber = blockNum;
 			Text = text;
 		}
 

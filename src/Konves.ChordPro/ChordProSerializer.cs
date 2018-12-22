@@ -3,7 +3,6 @@ using Konves.ChordPro.Directives;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace Konves.ChordPro
 {

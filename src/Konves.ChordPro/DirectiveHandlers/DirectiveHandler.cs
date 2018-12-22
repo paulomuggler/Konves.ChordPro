@@ -1,5 +1,6 @@
 ﻿using Konves.ChordPro.Directives;
 using System;
+using _Common.Extensions;
 
 namespace Konves.ChordPro.DirectiveHandlers
 {
@@ -57,17 +58,17 @@ namespace Konves.ChordPro.DirectiveHandlers
 			string subkeyString = GetSubKeyString(subkey);
 			string valueString = GetValueString(value);
 
-			return $"{{{key}{subkeyString}{valueString}}}";
+            return $"{{{key}{subkeyString}{valueString}}}";
 		}
 
 		internal string GetSubKeyString(string subkey)
 		{
-			return SubKey != ComponentPresence.NotAllowed && !string.IsNullOrWhiteSpace(subkey) ? " " + subkey : null;
+            return SubKey != ComponentPresence.NotAllowed && !(subkey??"").IsNullOrWhiteSpace() ? " " + subkey : null;
 		}
 
 		internal string GetValueString(string value)
 		{
-			return Value != ComponentPresence.NotAllowed && !string.IsNullOrWhiteSpace(value) ? ": " + value : null;
+            return Value != ComponentPresence.NotAllowed && !(value??"").IsNullOrWhiteSpace() ? ": " + value : null;
 		}
 
 		public abstract ComponentPresence SubKey { get; }

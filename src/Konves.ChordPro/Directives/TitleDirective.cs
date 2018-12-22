@@ -2,6 +2,11 @@
 {
 	public sealed class TitleDirective : Directive
 	{
+        public TitleDirective()
+        {
+            Text = "";
+        }
+
 		public TitleDirective(string text)
 		{
 			Text = text;

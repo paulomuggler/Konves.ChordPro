@@ -23,7 +23,7 @@ namespace Konves.ChordPro.DirectiveHandlers
 
 		protected override string GetValue(Directive directive)
 		{
-			return (directive as TextSizeDirective)?.FontSize.ToString();
+            return (directive as TextSizeDirective) != null? (directive as TextSizeDirective).FontSize.ToString() : null;
 		}
 
 		public override string LongName { get { return "textsize"; } }

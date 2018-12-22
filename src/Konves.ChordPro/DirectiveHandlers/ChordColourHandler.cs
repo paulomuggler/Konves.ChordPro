@@ -16,7 +16,7 @@ namespace Konves.ChordPro.DirectiveHandlers
 
 		protected override string GetValue(Directive directive)
 		{
-			return (directive as ChordColourDirective)?.Colour;
+            return (directive as ChordColourDirective) != null? (directive as ChordColourDirective).Colour : null;
 		}
 
 		public override string LongName { get { return "chordcolour"; } }

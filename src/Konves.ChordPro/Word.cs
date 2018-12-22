@@ -5,13 +5,15 @@ namespace Konves.ChordPro
 {
 	public sealed class Word : Block
 	{
-		public Word(string text)
+		public Word(int blockNum, string text)
 		{
-			Syllables = new List<Syllable> { new Syllable(null, text) };
+            BlockNumber = blockNum;
+			Syllables = new List<Syllable> { new Syllable(null, text, 1) };
 		}
 
-		public Word(IEnumerable<Syllable> syllables)
+        public Word(int blockNum, IEnumerable<Syllable> syllables)
 		{
+            BlockNumber = blockNum;
 			Syllables = syllables as List<Syllable> ?? syllables.ToList();
 		}
 

@@ -15,44 +15,23 @@ namespace Konves.ChordPro
             SetSongSections();
 
             // initializing reactive models
-            title = new ReactiveProperty<string>(GetMetaDirective<TitleDirective>().Text);
-            title.Subscribe(v => GetMetaDirective<TitleDirective>().Text = v);
+            title = new ReactiveProperty<string>(GetMetaDirective<TitleDirective>()?.Text);
+			title.Subscribe(v => {if(!string.IsNullOrWhiteSpace(v))GetOrAddMetaDirective<TitleDirective>().Text = v;});
 
-            subtitle = new ReactiveProperty<string>(GetMetaDirective<SubtitleDirective>().Text);
-            subtitle.Subscribe(v => GetMetaDirective<SubtitleDirective>().Text = v);
+            subtitle = new ReactiveProperty<string>(GetMetaDirective<SubtitleDirective>()?.Text);
+			subtitle.Subscribe(v => {if(!string.IsNullOrWhiteSpace(v))GetOrAddMetaDirective<SubtitleDirective>().Text = v;});
 
-            //artist = new ReactiveProperty<string>(GetMetaDirective<ArtistDirective>().Text);
-            //artist.Subscribe(v => GetMetaDirective<ArtistDirective>().Text = v);
+            artist = new ReactiveProperty<string>(GetMetaDirective<ArtistDirective>()?.Text);
+			artist.Subscribe(v => {if(!string.IsNullOrWhiteSpace(v))GetOrAddMetaDirective<ArtistDirective>().Text = v;});
 
-            //composer = new ReactiveProperty<string>(GetMetaDirective<ComposerDirective>().Text);
-            //composer.Subscribe(v => GetMetaDirective<ComposerDirective>().Text = v);
+            tuning = new ReactiveProperty<string>(GetMetaDirective<TuningDirective>()?.Text);
+			tuning.Subscribe(v => {if(!string.IsNullOrWhiteSpace(v))GetOrAddMetaDirective<TuningDirective>().Text = v;});
 
-            //lyricist = new ReactiveProperty<string>(GetMetaDirective<LyricistDirective>().Text);
-            //lyricist.Subscribe(v => GetMetaDirective<LyricistDirective>().Text = v);
+            key = new ReactiveProperty<string>(GetMetaDirective<KeyDirective>()?.Text);
+			key.Subscribe(v => {if(!string.IsNullOrWhiteSpace(v))GetOrAddMetaDirective<KeyDirective>().Text = v;});
 
-            //copyright = new ReactiveProperty<string>(GetMetaDirective<CopyrightDirective>().Text);
-            //copyright.Subscribe(v => GetMetaDirective<CopyrightDirective>().Text = v);
-
-            //album = new ReactiveProperty<string>(GetMetaDirective<AlbumDirective>().Text);
-            //album.Subscribe(v => GetMetaDirective<AlbumDirective>().Text = v);
-
-            //year = new ReactiveProperty<string>(GetMetaDirective<YearDirective>().Text);
-            //year.Subscribe(v => GetMetaDirective<YearDirective>().Text = v);
-
-            //key = new ReactiveProperty<string>(GetMetaDirective<KeyDirective>().Text);
-            //key.Subscribe(v => GetMetaDirective<KeyDirective>().Text = v);
-
-            //time = new ReactiveProperty<string>(GetMetaDirective<TimeDirective>().Text);
-            //time.Subscribe(v => GetMetaDirective<TimeDirective>().Text = v);
-
-            //tempo = new ReactiveProperty<string>(GetMetaDirective<TempoDirective>().Text);
-            //tempo.Subscribe(v => GetMetaDirective<TempoDirective>().Text = v);
-
-            //duration = new ReactiveProperty<string>(GetMetaDirective<DurationDirective>().Text);
-            //duration.Subscribe(v => GetMetaDirective<DurationDirective>().Text = v);
-
-            //capo = new ReactiveProperty<string>(GetMetaDirective<CapoDirective>().Text);
-            //capo.Subscribe(v => GetMetaDirective<CapoDirective>().Text = v);
+            capo = new ReactiveProperty<string>(GetMetaDirective<CapoDirective>()?.Text);
+			capo.Subscribe(v => {if(!string.IsNullOrWhiteSpace(v))GetOrAddMetaDirective<CapoDirective>().Text = v;});
 
         }
 
@@ -64,25 +43,23 @@ namespace Konves.ChordPro
 
         public ReactiveProperty<string> title { get; private set; }
         public ReactiveProperty<string> subtitle { get; private set; }
-        //public ReactiveProperty<string> artist { get; private set; }
-        //public ReactiveProperty<string> composer { get; private set; };
-        //public ReactiveProperty<string> lyricist { get; private set; };
-        //public ReactiveProperty<string> copyright { get; private set; };
-        //public ReactiveProperty<string> album { get; private set; };
-        //public ReactiveProperty<string> year { get; private set; };
-        //public ReactiveProperty<string> key { get; private set; };
-        //public ReactiveProperty<string> time { get; private set; };
-        //public ReactiveProperty<string> tempo { get; private set; };
-        //public ReactiveProperty<string> duration { get; private set; };
-        //public ReactiveProperty<string> capo { get; private set; };
+        public ReactiveProperty<string> artist { get; private set; }
+        public ReactiveProperty<string> key { get; private set; }
+        public ReactiveProperty<string> tuning { get; private set; }
+        public ReactiveProperty<string> capo { get; private set; }
 
-        //public List<ReactiveProperty<string>> meta
-        //{
-        //    get { return ((Lines.SelectMany(d => d is MetaDirective)); }
-        //    //set { GetMetaDirective<MetaDirective>().Text = value; }
-        //}
+        public T GetMetaDirective<T>() where T : Directive
+        {
+            var dir = (Lines.Where(d => d is T).FirstOrDefault() as T);
+            //if (dir == null)
+            //{
+            //    dir = new T();
+            //    Lines.Add(dir);
+            //}
+            return dir;
+        }
 
-        T GetMetaDirective<T>() where T : Directive, new()
+		T GetOrAddMetaDirective<T>() where T : Directive, new()
         {
             var dir = (Lines.Select(d => d is T) as T);
             if (dir == null)
@@ -132,6 +109,11 @@ namespace Konves.ChordPro
                     currentSection = new List<ILine>();
                 }
             }
+        }
+
+		public string ToString()
+        {
+            return string.Join("\n", Lines.Select(l => l.ToString()));
         }
     }
 }

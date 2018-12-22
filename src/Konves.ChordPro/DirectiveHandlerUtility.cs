@@ -68,6 +68,10 @@ namespace Konves.ChordPro
 			TextSizeHandler.Instance,
 			TitleHandler.Instance,
 			TitlesHandler.Instance,
+            ArtistHandler.Instance,
+            TuningHandler.Instance,
+            KeyHandler.Instance,
+            CapoHandler.Instance
 		};
 	}
 }

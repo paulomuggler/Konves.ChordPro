@@ -16,7 +16,7 @@ namespace Konves.ChordPro.DirectiveHandlers
 
 		protected override string GetValue(Directive directive)
 		{
-			return (directive as CommentItalicDirective)?.Text;
+            return (directive as CommentItalicDirective) != null? (directive as CommentItalicDirective).Text : null;
 		}
 
 		public override string LongName { get { return "comment_italic"; } }

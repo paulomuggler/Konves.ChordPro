@@ -2,6 +2,12 @@
 {
 	public sealed class SubtitleDirective : Directive
 	{
+
+        public SubtitleDirective()
+        {
+            Text = "";
+        }
+
 		public SubtitleDirective(string text)
 		{
 			Text = text;

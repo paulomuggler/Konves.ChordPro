@@ -26,7 +26,7 @@ namespace Konves.ChordPro.DirectiveHandlers
 
 		protected override string GetValue(Directive directive)
 		{
-			return (directive as TitlesDirective)?.Flush.ToString().ToLower();
+            return (directive as TitlesDirective) != null?(directive as TitlesDirective).Flush.ToString().ToLower() : null;
 		}
 
 		public override string LongName { get { return "titles"; } }

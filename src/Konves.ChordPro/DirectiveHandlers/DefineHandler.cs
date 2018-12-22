@@ -16,12 +16,12 @@ namespace Konves.ChordPro.DirectiveHandlers
 
 		protected override string GetSubKey(Directive directive)
 		{
-			return (directive as DefineDirective)?.Chord;
+            return (directive as DefineDirective) != null? (directive as DefineDirective).Chord : null;
 		}
 
 		protected override string GetValue(Directive directive)
 		{
-			return (directive as DefineDirective)?.Definition;
+            return (directive as DefineDirective) != null? (directive as DefineDirective).Definition : null;
 		}
 
 		public override string LongName { get { return "define"; } }

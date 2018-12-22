@@ -6,7 +6,7 @@ namespace Konves.ChordPro.DirectiveHandlers
 	{
 		private CommentHandler() { }
 
-		public static CommentHandler Instance { get; } = new CommentHandler();
+        public static CommentHandler Instance { get; } = new CommentHandler();
 
 		protected override bool TryCreate(DirectiveComponents components, out Directive directive)
 		{
@@ -16,7 +16,7 @@ namespace Konves.ChordPro.DirectiveHandlers
 
 		protected override string GetValue(Directive directive)
 		{
-			return (directive as CommentDirective)?.Text;
+            return (directive as CommentDirective) != null? (directive as CommentDirective).Text : null;
 		}
 
 		public override string LongName { get { return "comment"; } }

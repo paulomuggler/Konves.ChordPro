@@ -16,7 +16,7 @@ namespace Konves.ChordPro.DirectiveHandlers
 
 		protected override string GetValue(Directive directive)
 		{
-			return (directive as CommentBoxDirective)?.Text;
+            return (directive as CommentBoxDirective) != null? (directive as CommentBoxDirective).Text : null;
 		}
 
 		public override string LongName { get { return "comment_box"; } }

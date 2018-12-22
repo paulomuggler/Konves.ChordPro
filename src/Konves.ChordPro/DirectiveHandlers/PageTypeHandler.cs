@@ -26,7 +26,7 @@ namespace Konves.ChordPro.DirectiveHandlers
 
 		protected override string GetValue(Directive directive)
 		{
-			return (directive as PageTypeDirective)?.PageType.ToString().ToLower();
+            return (directive as PageTypeDirective) != null?(directive as PageTypeDirective).PageType.ToString().ToLower() : null;
 		}
 
 		public override string LongName { get { return "pagetype"; } }

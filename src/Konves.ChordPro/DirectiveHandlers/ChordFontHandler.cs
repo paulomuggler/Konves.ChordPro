@@ -16,7 +16,7 @@ namespace Konves.ChordPro.DirectiveHandlers
 
 		protected override string GetValue(Directive directive)
 		{
-			return (directive as ChordFontDirective)?.FontFamily;
+            return (directive as ChordFontDirective) != null ?(directive as ChordFontDirective).FontFamily : null;
 		}
 
 		public override string LongName { get { return "chordfont"; } }

@@ -23,7 +23,7 @@ namespace Konves.ChordPro.DirectiveHandlers
 
 		protected override string GetValue(Directive directive)
 		{
-			return (directive as ColumnsDirective)?.Number.ToString();
+            return (directive as ColumnsDirective) != null? (directive as ColumnsDirective).Number.ToString() : null;
 		}
 
 		public override string LongName { get { return "columns"; } }
